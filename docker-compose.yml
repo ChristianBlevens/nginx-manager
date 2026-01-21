@@ -12,7 +12,7 @@ services:
       - ./ssl:/etc/nginx/ssl
       - ./generate-dhparam.sh:/docker-entrypoint.d/10-dhparam.sh:ro
       # CommentSectionWebApp static frontend files
-      - ../CommentSectionWebApp/frontend:/usr/share/nginx/html/comments:ro
+      - ../comment-app/frontend:/usr/share/nginx/html/comments:ro
     networks:
       - proxy-network
     healthcheck:
