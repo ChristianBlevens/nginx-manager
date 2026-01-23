@@ -14,7 +14,7 @@ services:
       # CommentSectionWebApp static frontend files
       - ../comment-app/frontend:/usr/share/nginx/html/comments:ro
       # BehavioralPatternDiscovery static frontend files
-      - ../behavioral-pattern-discovery/frontend/dist:/usr/share/nginx/html/bpd:ro
+      - ../behavioral-pattern-discovery/frontend:/usr/share/nginx/html/bpd:ro
     networks:
       - proxy-network
     healthcheck:
