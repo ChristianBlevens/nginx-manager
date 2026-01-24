@@ -14,7 +14,7 @@ services:
       - ./generate-dhparam.sh:/docker-entrypoint.d/10-dhparam.sh:ro
       # Static frontend files
       - ../my-website:/usr/share/nginx/html/website:ro
-      - ../comment-app/frontend:/usr/share/nginx/html/mycomments:ro
+      - ../comment-app/frontend:/usr/share/nginx/html/comments:ro
       - ../behavioral-pattern-discovery/frontend:/usr/share/nginx/html/bpd:ro
     networks:
       - proxy-network
