@@ -1,0 +1,91 @@
+# =============================================================================
+# XX-projectname.conf - [Project Name]
+# =============================================================================
+# Serves at: /projectname
+# Backend: [container-name:port] or Static files only
+#
+# SETUP INSTRUCTIONS:
+# 1. Copy this file: cp 99-template.conf.example XX-projectname.conf
+# 2. Replace all instances of "projectname" with your project name
+# 3. Replace "project-container" with your container name
+# 4. Update port number (default: 8000)
+# 5. Add volume mount in docker-compose.yml if serving static files
+# 6. Test config: docker exec nginx-manager nginx -t
+# 7. Reload: docker exec nginx-manager nginx -s reload
+# =============================================================================
+
+# Redirect /projectname to /projectname/
+location = /projectname {
+    return 301 /projectname/;
+}
+
+# ===========================================
+# Option A: Static Files Only
+# ===========================================
+# Uncomment this section if your project is static files only
+
+# location ^~ /projectname/ {
+#     alias /usr/share/nginx/html/projectname/;
+#     index index.html;
+#     try_files $uri $uri/ /projectname/index.html;
+#     add_header Cache-Control "no-cache, no-store, must-revalidate";
+# }
+
+# ===========================================
+# Option B: Backend Proxy Only
+# ===========================================
+# Uncomment this section if your project is backend-only (no static files)
+
+# location ^~ /projectname/ {
+#     set $upstream http://project-container:8000;
+#     rewrite ^/projectname/(.*) /$1 break;
+#     proxy_pass $upstream;
+#     proxy_http_version 1.1;
+#     proxy_set_header Host $host;
+#     proxy_set_header X-Real-IP $remote_addr;
+#     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_set_header X-Forwarded-Proto https;
+#     proxy_set_header X-Forwarded-Prefix /projectname;
+#
+#     # WebSocket support (if needed)
+#     proxy_set_header Upgrade $http_upgrade;
+#     proxy_set_header Connection "upgrade";
+#
+#     # Timeouts
+#     proxy_connect_timeout 60s;
+#     proxy_send_timeout 60s;
+#     proxy_read_timeout 60s;
+# }
+
+# ===========================================
+# Option C: Static Files + API Backend (SPA Pattern)
+# ===========================================
+# Uncomment this section for SPA with separate API
+
+# # Static frontend files
+# location ^~ /projectname/ {
+#     alias /usr/share/nginx/html/projectname/;
+#     try_files $uri $uri/ @projectname_fallback;
+#     add_header Cache-Control "no-cache, no-store, must-revalidate";
+# }
+#
+# # SPA fallback
+# location @projectname_fallback {
+#     root /usr/share/nginx/html;
+#     try_files /projectname/index.html =404;
+# }
+#
+# # API proxy
+# location ^~ /projectname/api/ {
+#     limit_req zone=api burst=50 nodelay;
+#
+#     set $upstream http://project-container:8000;
+#     rewrite ^/projectname/api/(.*) /api/$1 break;
+#     proxy_pass $upstream;
+#     proxy_http_version 1.1;
+#     proxy_set_header Host $host;
+#     proxy_set_header X-Real-IP $remote_addr;
+#     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_set_header X-Forwarded-Proto https;
+#     proxy_set_header X-Forwarded-Prefix /projectname;
+# }
