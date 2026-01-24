@@ -1,7 +1,7 @@
 #!/bin/bash
 # SSL Certificate Renewal Script for nginx-manager
 
-DOMAIN="${SSL_DOMAIN:-mycomments.duckdns.org}"
+DOMAIN="${SSL_DOMAIN:-christianblevens.me}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
